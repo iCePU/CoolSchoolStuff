@@ -47,9 +47,8 @@ public class planesBooking{
                }
           }
      }
-     public String[] readPlaneFile(String fileName){
+     public void readPlaneFile(String fileName){
           try{
-
                String dataFromFile = "";
                dataFromFile = new String(Files.readAllBytes(Paths.get(fileName)));
           }catch(IOException e){
@@ -80,10 +79,44 @@ public class planesBooking{
                          boolean hasMeal = true;
                     }
                     //put in try catch
+                    try{
                     Plane tmpPlane = new Plane(Integer.valueOf(tmpData[0]),tmpData[1],Integer.valueOf(tmpData[2]),hasMeal,Integer.valueOf(tmpData[4]),Integer.valueOf(tmpData[5]));
                     arrayOfPlanes.add(Plane);
+                    }
                }
           }
+     }
+
+     public void readPassengerFile(String fileName){
+          try{
+               String dataFromFile = "";
+               dataFromFile = new String(Files.readAllBytes(Paths.get(fileName)));
+          }catch(IOException e){
+               System.out.println("reading file and this happend:" + e.getMessage());
+               String dataFromFile;
+               this.dataFromFile = "";
+          }finally{
+
+               //iterate through the file until empty
+               boolean inFile = true;
+               int lastIndex = 0;
+               int currentIndex = 0;
+               String newline = System.getProperty("line.separator");
+               currentIndex = this.dataFromFile.indexOf(newline,lastIndex);
+
+               while(inFile == true){
+                    currentIndex = this.dataFromFile.indexOf(newline,lastIndex);
+                    if (currentIndex == -1){
+                         inFile = false;
+                         continue;
+                    }
+
+                    tmpSubString = this.dataFromFile.substring(lastIndex,currentIndex);
+                    List<String> tmpData = Arrays.asList(tmpSubString.split(","));
+                    Integer.valueOf(tmpData[0])
+                    .add(Plane);
+                    }
+               }
      }
 }
 
