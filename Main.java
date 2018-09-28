@@ -115,7 +115,6 @@ class School{
                this.dataFromFile = "";
           }finally{
 
-
                //iterate through the file until empty
                boolean inFile = true;
                int lastIndex = 0;
