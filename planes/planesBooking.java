@@ -21,28 +21,85 @@ public class planesBooking{
 
                for(int x = 0;x < command.length(); x++){
 
+                    //add passenger
                     if(command.charAt(x)=='1'){
+                         System.out.println("enter the number of the plane");
+                         int pNumber = Integer.valueOf(reader.readLine().trim()); //will through an error
 
+                         System.out.println("enter the name the first name of the passenger");
+                         String name = reader.readLine().trim();
+
+                         System.out.println("enter the food preference");
+                         String foodPref = reader.readLine().trim();
+
+                         System.out.println("enter the row of the seat");
+                         int rowNum = Integer.valueOf(reader.readLine().trim()); //will through an error
+
+                         System.out.println("enter the column of the seat");
+                         int columnNum = Integer.valueOf(reader.readLine().trim()); //will through an error
+
+                         Passenger tmpPerson = new Passenger(name,foodPref);
+                         for(int element =0;element <planesBooking.arrayOfPlanes.size();element++){
+                               if(planesBooking.arrayOfPlanes[element].getPlaneNumber() == pNumber && planesBooking.arrayOfPlanes[element].isSeatBooked(rowNum,columnNum)){
+                                    if(!planesBooking.arrayOfPlanes[element].hasMeal() && tmpPerson.FoodPreferance=="none"){
+                                         tmpPerson.FoodPreferance = "snack";
+                                    }
+                                    planesBooking.arrayOfPlanes[element].Bookings[rowNum][columnNum] = tmpPerson;
+                               }
+                         }
                     }
 
+                    //list planes
                     if(command.charAt(x)=='2'){
-
+                         for(int element = 0; element <planesBooking.arrayOfPlanes.size(); element++){
+                              String pNumber = Integer.toString(planesBooking.arrayOfPlanes.getNumOnPlane());
+                              String dayNum = Integer.toString(planesBooking.arrayOfPlanes.getDayOfTravel());
+                              String amountPeople = Integer.toString(planesBooking.arrayOfPlanes.numPassengers());
+                              String isFull = "";
+                              if(planesBooking.arrayOfPlanes){
+                                   isFull = " this plane is full";
+                              }
+                              System.out.println(pNumber + " " + dayNum + " " + amountPeople + " " + isFull);
+                         }
                     }
 
                     if(command.charAt(x)=='3'){
+                         System.out.println("What plane do you want to see?");
+                         int pNumber = Integer.valueOf(reader.readLine().trim());
+                         for(int element = 0;element < planesBooking.arrayOfPlanes.size();element++){
+                              if(planesBooking.arrayOfPlanes[element].getNumOnPlane()==pNumber){
+                                   System.out.println(planesBooking.arrayOfPlanes[element].manifest());
+                              }
+                         }
 
                     }
 
                     if(command.charAt(x)=='4'){
-
+                         int[] tmp;
+                         System.out.println("What plane do you want to see?");
+                         int pNumber = Integer.valueOf(reader.readLine().trim());
+                         for(int element = 0;element < planesBooking.arrayOfPlanes.size();element++){
+                              if(planesBooking.arrayOfPlanes[element].getNumOnPlane()==pNumber){
+                                   tmp = planesBooking.arrayOfPlanes[element].numOfFoodPreferences();
+                                   System.out.println("Chicken "+Integer.toString(tmp[0])+ " pasta "+Integer.toString(tmp[0]) + " Special "+Integer.toString(tmp[0]));
+                              }
+                         }
                     }
 
                     if(command.charAt(x)=='5'){
-
+                         System.out.println("What plane do you want to see?");
+                         int pNumber = Integer.valueOf(reader.readLine().trim());
+                         for(int element = 0;element < planesBooking.arrayOfPlanes.size();element++){
+                              if(planesBooking.arrayOfPlanes[element].getNumOnPlane()==pNumber){
+                                   String name = reader.readline().strip();
+                                   int[] tmpList = planesBooking.arrayOfPlanes[element].findPassenger(name);
+                                   System.out.println("Row :" + Integer.valueOf(tmpList[0].trim()) + " Column :" + Integer.valueOf(tmpList[1].trim()));
+                              }
+                         }
                     }
 
                     if(command.charAt(x)=='6'){
-
+                         System.exit();
                     }
                }
           }
@@ -113,10 +170,59 @@ public class planesBooking{
 
                     tmpSubString = this.dataFromFile.substring(lastIndex,currentIndex);
                     List<String> tmpData = Arrays.asList(tmpSubString.split(","));
-                    Integer.valueOf(tmpData[0])
-                    .add(Plane);
+                    int planeNumber = Integer.valueOf(tmpData[0]);
+                    int row = Integer.valueOf(tmpData[3]);
+                    int column = Integer.valueOf(tmpData[4]);
+                    Passenger tmpPerson = new Passenger(tmpData[1],tmpData[2]);
+
+                    for(int element =0;element<planesBooking.arrayOfPlanes.size();element++){
+                         if(planesBooking.arrayOfPlanes[element].PlaneNumber ==planeNumber){
+                              if(!planesBooking.arrayOfPlanes[element].isSeatBooked(row,column)){
+                                   if(!planesBooking.arrayOfPlanes[element].hasMeal() && tmpPerson.FoodPreferance=="none"){
+                                        tmpPerson.FoodPreferance = "snack";
+                                   }
+                                   planesBooking.arrayOfPlanes[element].Bookings[row][column]=tmpPerson;
+                                   break;
+                              }else if(planesBooking.arrayOfPlanes[element].setSeats(tmpPerson)<0){
+                                   System.out.println("We tried booking you to flight number" + tmpData[0]);
+                                   //use the data you've already itterated through
+                                   for(int x =element; x <planesBooking.arrayOfPlanes.size();x++){
+                                   }
+                                   if(planesBooking.arrayOfPlanes[x].getDestination == planesBooking.arrayOfPlanes[element].getDestination() && !planesBooking.arrayOfPlanes[x].isFull()){
+                                        List<int> seats = planesBooking.arrayOfPlanes[x].availableSeats();
+                                        String strSeats = "";
+                                        for(int index =0; index<seats.size();index++){
+                                             strSeats = strSeats + Integer.toString(seats[index][0])+Integer.toString(seats[index][0])+newline;
+                                        }
+                                        System.out.println("Theses seats are available");
+                                        System.out.println(strSeats);
+                                        System.out.println("enter two number seperated by a comma <0,0> that correspond to the seat that you want");
+
+                                        escape = false;
+                                        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                                        while(!escape){
+                                             try{
+                                                  String command = reader.readLine();
+                                                  List<String> extremeTmpData = Arrays.asList(command.split(","));
+                                                  if(!planesBooking.arrayOfPlanes[x].isSeatBooked(Integer.valueOf(extremeTmpData[0]),Integer.valueOf(extremeTmpData[1]))){
+                                                       if(!planesBooking.arrayOfPlanes[element].hasMeal() && tmpPerson.FoodPreferance=="none"){
+                                                            tmpPerson.FoodPreferance = "snack";
+                                                       }
+                                                       planesBooking.arrayOfPlanes[x].Bookings[Integer.valueOf(extremeTmpData[0])][Integer.valueOf(extremeTmpData[1])] = tmpPerson;
+                                                       break;
+                                                  }else{
+                                                       System.out.println("you entered the index of a seat that wasn't available, try again");
+                                                  }finally{
+                                                       System.out.println("Something happend that shouldn't have.");
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
                     }
                }
+          }
      }
 }
 
@@ -207,32 +313,23 @@ class Plane{
           return foods;
      }
 
-     String[] manifest(){
-          String[] listOPeople;
+     String manifest(){
+          String tmp = "";
           for(int row =0; row<this.Bookings.length;row++){
                for(int column =0; column<this.Bookings[0].length;column++){
-                    for(int x = 0;x < listOPeople.length;x++){
-                         if((this.Bookings[row][column].name).compareToIgnoreCase(listOPeople[x])>1){
-                              continue;
-                         }
-                         else{
-                              //second time used in the program
-                              String[] copyDB = new String[listOPeople.length+1];
-                              System.arraycopy(listOPeople,0,copyDB,0,(x-1));
-                              copyDB[x] = this.Bookings[row][column].name + Integer.toString(row)+" "+Integer.toString(column);
-                              System.arraycopy(listOPeople,x,copyDB,x+1,(listOPeople.length-x));
-                         }
+                    if(this.Bookings[row][column]!=null){
+                         tmp = tmp + this.Bookings[row][column] + System.getProperty("line.separator");
                     }
                }
           }
-          return listOPeople;
+          return tmp;
      }
 
-     int[] findPassenger(Passenger timmy){
+     int[] findPassenger(String timmy){
           int[] rowColumn ={0,0};
           for(int row =0; row<this.Bookings.length;row++){
                for(int column =0; column<this.Bookings[0].length;column++){
-                    if(this.Bookings[row][column]==timmy){
+                    if(this.Bookings[row][column].name==timmy){
                          rowColumn = {row,column};
                     }
                }
