@@ -249,7 +249,6 @@ public class PlanesBooking{
 
                     //matches passenger to plane
                     for(int element =0;element<PlanesBooking.arrayOfPlanes.size();element++){
-                         //System.out.println(Integer.toString(element));
                          if(PlanesBooking.arrayOfPlanes.get(element).getPlaneNumber() == planeNumber){
                               if(!(PlanesBooking.arrayOfPlanes.get(element).isSeatBooked(row,column))){
                                    if(!PlanesBooking.arrayOfPlanes.get(element).getHasMeal() && tmpPerson.getFoodPreferance()=="none"){
@@ -258,17 +257,57 @@ public class PlanesBooking{
 
                                    //litterally the worst io handling but makes the garbage input file tollerable
                                    if(row >= PlanesBooking.arrayOfPlanes.get(element).Bookings.length){
+                                        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+                                        System.out.println("the seat you want is either full or doesn't exist here are the other seats available on the planes");
+                                        List<int[]> seats = new ArrayList<int[]>();
+                                        seats = PlanesBooking.arrayOfPlanes.get(element).availableSeats();
+                                        String strSeats = "";
+
+                                        //get the available seats
+                                        for(int index =0; index<seats.size();index++){
+                                             strSeats = strSeats + Integer.toString(seats.get(index)[0])+" "+Integer.toString(seats.get(index)[1])+newline;
+                                        }
+
+                                        System.out.println(strSeats);
+                                        System.out.println("enter the row of the seat");
+                                        int rowNum = Integer.valueOf(reader.readLine().trim()); //will through an error //why keep it
+
+                                        System.out.println("enter the column of the seat");
+                                        int columnNum = Integer.valueOf(reader.readLine().trim()); //will through an error
+
+                                        //breaking it down the first part took in the passenger data and the second part stores the data
+                                        PlanesBooking.arrayOfPlanes.get(element).Bookings[rowNum][columnNum] = tmpPerson;
+
                                         break;
-                                   }
+                                   }                                   }
                                    if(column >= PlanesBooking.arrayOfPlanes.get(element).Bookings[0].length){
+                                        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+                                        System.out.println("the seat you want is either full or doesn't exist here are the other seats available on the planes");
+                                        List<int[]> seats = new ArrayList<int[]>();
+                                        seats = PlanesBooking.arrayOfPlanes.get(element).availableSeats();
+                                        String strSeats = "";
+
+                                        //get the available seats
+                                        for(int index =0; index<seats.size();index++){
+                                             strSeats = strSeats + Integer.toString(seats.get(index)[0])+Integer.toString(seats.get(index)[1])+newline;
+                                        }
+
+                                        System.out.println(strSeats);
+                                        System.out.println("enter the row of the seat");
+                                        int rowNum = Integer.valueOf(reader.readLine().trim()); //will through an error
+
+                                        System.out.println("enter the column of the seat");
+                                        int columnNum = Integer.valueOf(reader.readLine().trim()); //will through an error
+
+                                        //breaking it down the first part took in the passenger data and the second part stores the data
+                                        PlanesBooking.arrayOfPlanes.get(element).Bookings[rowNum][columnNum] = tmpPerson;
+
                                         break;
+                                        //same as above
                                    }
-
-                                   //making Bookings Public was an amazing idea I think it was supposed to be private but I didn't like that
-                                   PlanesBooking.arrayOfPlanes.get(element).Bookings[row][column]=tmpPerson;
-                                   //this may not actually set the elements properties to tmp prerson but rather set the local variables properties to tmp person which would be exactly as dumb as I expect java to be
-                                   break;
-
+                                   PlanesBooking.arrayOfPlanes.get(element).Bookings[row][column] = tmpPerson;
                               }else if(PlanesBooking.arrayOfPlanes.get(element).setSeats(tmpPerson)<0){
                                    System.out.println("We tried booking you to flight number" + tmpData.get(0));
 
@@ -323,7 +362,7 @@ public class PlanesBooking{
                                              }
                                              //sneaky way of not dealing with java's continue bs
                                              x = PlanesBooking.arrayOfPlanes.size();
-                                        }
+
                                    }
                               }
                          }
@@ -438,12 +477,30 @@ class Plane{
 //returns a string of names seperated by newline characters
      String manifest(){
           String tmp = "";
+          ArrayList<String> ordering =new ArrayList<String>();
           for(int row =0; row<this.Bookings.length;row++){
                for(int column =0; column<this.Bookings[0].length;column++){
                     //existance checking
                     if(!(this.Bookings[row][column]==null)){
-                         tmp = tmp + this.Bookings[row][column].getName() + System.getProperty("line.separator");
+                         if(ordering.size()==0){
+                              ordering.add(this.Bookings[row][column].getName());
+                              continue;
+                         }
+                         for(int x = 0;x < ordering.size();x++){
+                              System.out.println("in mainfest inner loop");
+                              if((this.Bookings[row][column].getName()).compareToIgnoreCase(ordering.get(x))<1){
+                                   continue;
+                              }else if((this.Bookings[row][column].getName()).compareToIgnoreCase(ordering.get(x))==0){
+                                   continue;
+                              }else
+                              {
+                                   ordering.add(x,this.Bookings[row][column].getName());
+                              }
+                         }
                     }
+               }
+               for(int element = 0; element<ordering.size();element++){
+                    tmp = tmp + ordering.get(element) + System.getProperty("line.separator");
                }
           }
           return tmp;
