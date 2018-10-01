@@ -27,6 +27,3 @@ ID, Destination, Day, Meal, Rows, NumPerRow
 9027, Jamaica, 7, no, 24, 4
 9028, London, 7, yes, 32, 5
 9029, Paris, 7, yes, 32, 5
-
-
-
