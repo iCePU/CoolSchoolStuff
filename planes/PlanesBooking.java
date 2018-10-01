@@ -482,26 +482,15 @@ class Plane{
                for(int column =0; column<this.Bookings[0].length;column++){
                     //existance checking
                     if(!(this.Bookings[row][column]==null)){
-                         if(ordering.size()==0){
-                              ordering.add(this.Bookings[row][column].getName());
-                              continue;
-                         }
-                         for(int x = 0;x < ordering.size();x++){
-                              System.out.println("in mainfest inner loop");
-                              if((this.Bookings[row][column].getName()).compareToIgnoreCase(ordering.get(x))<1){
-                                   continue;
-                              }else if((this.Bookings[row][column].getName()).compareToIgnoreCase(ordering.get(x))==0){
-                                   continue;
-                              }else
-                              {
-                                   ordering.add(x,this.Bookings[row][column].getName());
-                              }
-                         }
+                         //tmp = tmp + this.Bookings[row][column].getName() + System.getProperty("line.separator");
+                         ordering.add(this.Bookings[row][column].getName());
                     }
                }
-               for(int element = 0; element<ordering.size();element++){
-                    tmp = tmp + ordering.get(element) + System.getProperty("line.separator");
-               }
+          }
+          ordering.sort(String::compareToIgnoreCase);//cheating but idc
+          tmp ="";
+          for(int element = 0; element<ordering.size();element++){
+               tmp = tmp + ordering.get(element)+System.getProperty("line.separator");
           }
           return tmp;
      }
