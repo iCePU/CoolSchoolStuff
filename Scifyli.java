@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.Scanner;
 
 public class Scifyli{
-     public static void main(String[] args){
+     public static void main(String[] args)throws Exception{
           ArrayList<Book> IOArray = readFromFile();
           Scanner reader = new Scanner(System.in);
           System.out.println("Welcome to the library at the end of the universe! how may this system help you?");
@@ -14,10 +14,11 @@ public class Scifyli{
                System.out.println("4) view all books author");
                System.out.println("5) end of the day?");
                System.out.println("6) theres a fire!!!AHAHAHAHHASDDFHASDFHASDFHASDFHASDFHASDFa");
+               System.out.println("7) toggle the checked in value of a book");
                String in = reader.next();
                int i = Integer.parseInt(in);
                if(i==1){
-                    System.out.println("enter the name of the title");
+                    System.out.println("enter the title");
                     String in = reader.next();
                     ArrayList<Book> out = findByT(IOArray,in);
                     for(int element =0;element <out.size();element ++){
@@ -49,11 +50,51 @@ public class Scifyli{
                }
 
                if(i==5){
-
+                    Stack<Book> endPile = new Stack<Book>();
+                    for(int element = 0;element<IOArray.size();element ++){
+                         if(IOArray.get(element).checkedOut == 0){
+                              endPile.push(IOArray.get(element));
+                         }
+                    }
+                    while(endPile.peek != null){
+                         Book aBook = endPile.pop();
+                         for(int element = 0;element<IOArray.size();element ++){
+                              if(IOArray.get(element).title.compareToIgnoreCase(aBook.title)){
+                                   Book tmp = IOArray.get(element);
+                                   if(tmp.checkedOut ==0){
+                                        tmp.checkedOut = 1;
+                                   }else{
+                                        tmp.checkedOut= 0;
+                                   }
+                                   IOArray.set(element,tmp);
+                    }
                }
 
                if(i==6){
+                    PriorityQueue<Book> tmpQueue = new PriorityQueue<Book>();
+                    for(int element = 0;element<IOArray.size();element ++){
+                         tmpQueue.add(IOArray.get(element));
+                    }
+                    Iterator itr = tmpQueue.iterator();
+                    while(itr.hasNext()){
+                         System.out.println(itr.next());
+                    }
+               }
 
+               if(i==7){
+                    System.out.println("enter the title");
+                    String in = reader.next();
+                    for(int element = 0;element<IOArray.size();element ++){
+                         if(IOArray.get(element).title.compareToIgnoreCase(in)){
+                              Book tmp = IOArray.get(element);
+                              if(tmp.checkedOut ==0){
+                                   tmp.checkedOut = 1;
+                              }else{
+                                   tmp.checkedOut= 0;
+                              }
+                              IOArray.set(element,tmp);
+
+                         }
                }
 
           }
