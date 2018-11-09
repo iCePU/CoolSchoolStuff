@@ -18,19 +18,34 @@ public class Scifyli{
                int i = Integer.parseInt(in);
                if(i==1){
                     System.out.println("enter the name of the title");
-                    
+                    String in = reader.next();
+                    ArrayList<Book> out = findByT(IOArray,in);
+                    for(int element =0;element <out.size();element ++){
+                         System.out.println(out.get(element));
+                    }
                }
 
                if(i==2){
-
+                    System.out.println("enter the name of the author");
+                    String in = reader.next();
+                    ArrayList<Book> out = findByA(IOArray,in);
+                    for(int element =0;element <out.size();element ++){
+                         System.out.println(out.get(element));
+                    }
                }
 
                if(i==3){
-
+                    ArrayList<Book> out = sortMeByT(IOArray,in);
+                    for(int element =0;element <out.size();element ++){
+                         System.out.println(out.get(element));
+                    }
                }
 
                if(i==4){
-
+                    ArrayList<Book> out = sortMeByA(IOArray,in);
+                    for(int element =0;element <out.size();element ++){
+                         System.out.println(out.get(element));
+                    }
                }
 
                if(i==5){
@@ -42,7 +57,6 @@ public class Scifyli{
                }
 
           }
-          //get  data from the user
                //return list
                //tell if the book is out or not
                //search order list by author or title
