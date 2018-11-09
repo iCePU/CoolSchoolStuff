@@ -1,12 +1,47 @@
 import java.io.*;
 import java.util.*;
+import java.util.Scanner;
 
 public class Scifyli{
-
      public static void main(String[] args){
+          ArrayList<Book> IOArray = readFromFile();
+          Scanner reader = new Scanner(System.in);
+          System.out.println("Welcome to the library at the end of the universe! how may this system help you?");
+          while(1==1){
+               System.out.println("1) search by title");
+               System.out.println("2) search by author");
+               System.out.println("3) view all books title");
+               System.out.println("4) view all books author");
+               System.out.println("5) end of the day?");
+               System.out.println("6) theres a fire!!!AHAHAHAHHASDDFHASDFHASDFHASDFHASDFHASDFa");
+               String in = reader.next();
+               int i = Integer.parseInt(in);
+               if(i==1){
+                    System.out.println("enter the name of the title");
+                    
+               }
 
-          IOArray = readFromFile();
-          ArrayList<Book> IOArray = new ArrayList<Book>();
+               if(i==2){
+
+               }
+
+               if(i==3){
+
+               }
+
+               if(i==4){
+
+               }
+
+               if(i==5){
+
+               }
+
+               if(i==6){
+
+               }
+
+          }
           //get  data from the user
                //return list
                //tell if the book is out or not
@@ -16,6 +51,7 @@ public class Scifyli{
                //return proccess, given a list insert into list
                //covert to priority list
      }
+
      //this is for returning an authors works
      public ArrayList<Book> findByA(ArrayList<Book> listings, String aurthor){
           ArrayList<Book> found= new ArrayList<Book>();
@@ -26,6 +62,7 @@ public class Scifyli{
           }
           return found;
      }
+
      public ArrayList<Book> findByT(ArrayList<Book> listings, String title){
           ArrayList<Book> found= new ArrayList<Book>();
           for(int element = 0;element<listings.size();element ++){
@@ -35,6 +72,7 @@ public class Scifyli{
           }
           return found;
      }
+
      //sorting function for author
      public ArrayList<Book> sortMeByA(ArrayList<Book> helpMe){
           //lol cause lambda expressions don't exist apparently
@@ -57,20 +95,27 @@ public class Scifyli{
           });
           return helpMe;
      }
+
      public ArrayList<Book> readFromFile()throws Exception{
           ArrayList<Book> snarf = new ArrayList<Book>();
           File inputList =  new File("test.txt");
           BufferedReader inputBuffer = new BufferedReader(new FileReader(inputList));
           String tmp;
           while((tmp=inputBuffer.readLine())!=null){
-               Book glob = new Book()
-               snarf.add()
+               String[] arrayString = tmp.split(",");
+               Book glob = new Book(Integer.parseInt(arrayString[2]),Integer.parseInt(arrayString[3]),arrayString[0],Integer.parseInt(arrayString[1]));
+               snarf.add(glob);
           }
+          return snarf;
+     }
+
+     public void writeToFile(ArrayList<book> snarf)throws Exception{
+
      }
 }
-s
+
 //a struct to hold data together
-class Book{
+public class Book implements Comparable<Book>{
      public int priority   = 0;
      public int checkedOut = 0;
      public String title   = "";
@@ -86,6 +131,21 @@ class Book{
      String toString(){
           String tmp ="";
           tmp = this.title+" "+this.author;
+          if(this.checkedOut==0){
+               tmp = tmp + " " + "checked out";
+          }else{
+               tmp = tmp + " " +"is not checked out";
+          }
           return tmp;
      }
+     @Override
+    public int compareTo(Book other) {
+         if(this.priority>other.priority){
+              return 1;
+         }else if(this.priority==other.priority){
+              return 0;
+         }else{
+              return -1;
+         }
+    }
 }
