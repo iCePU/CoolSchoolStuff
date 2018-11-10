@@ -1,0 +1,13 @@
+ice@ice-boi:~/CoolSchoolStuff/CannibalesAndMissionaries$ java CandM
+MMMCCC/_/_/
+MMCC/_/_/MC
+MMMCC/_/_/C
+MMC/_/_/MCC
+MMMC/_/_/CC
+MC/_/_/MMCC
+MCC/_/_/MMC
+CC/_/_/MMMC
+CCC/_/_/MMM
+C/_/_/MMMCC
+CC/_/_/MMMC
+/_/_/MMMCCC
