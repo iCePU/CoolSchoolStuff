@@ -1,16 +1,19 @@
 //Landon Rawson
 import java.util.*;
 public class Queue<Type> extends List<Type> {
-    private Type data;
-    public void enqueue(Type data) {
-        if(super.IsFull()){
-            throw new IndexOutOfBoundsException("Stack is full");
-        }
-        super.InsertBefore(data);
-    }
+     private Type data;
+     public void enqueue(Type data){
+          super.First();
+          while(super.current.getData().priority>data.priority){
+               super.Next();
+          }
+          super.InsertBefore(data);
+     }
+
     public Type dequeue() {
-        if (super.IsEmpty())
-            throw new NoSuchElementException("No items in Stack");
+        if (super.IsEmpty()){
+             return null;
+        }
         int curr = super.GetPos();
         super.Last();
         data = super.GetValue();
