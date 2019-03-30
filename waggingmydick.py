@@ -83,6 +83,6 @@ class CoordinateSystem():
 
 WIDTH = 800
 HEIGHT = 800
-NUM_POINTS = 15000
+NUM_POINTS = 10000
 x = CoordinateSystem()
 x.plotPoints(NUM_POINTS)
