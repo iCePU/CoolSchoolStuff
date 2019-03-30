@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
+
+###############################################################################
+#I want to give some context to this, my teacher assigned a project at the begining
+#of the class and I wrote this entire thing in lecture.
+#he was cool with it.
+###############################################################################
 import random
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.animation as animation
+import matplotlib.animation as animation #never got this to work \(;^;)/
+#wanted to have it strobe through the rainbow
 
 def mag(vect):
     vect = np.array([vect.x,vect.y,vect.z])
