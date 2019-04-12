@@ -39,7 +39,7 @@ double variance(int solid[], double aveVal){
 	return rollingSum;
 }
 
-void systems(int oscA, int oscB, int energy){
+int systems(int oscA, int oscB, int energy){
 	double solidA[energy];
 	double solidB[energy];
 	double system[energy];
@@ -54,35 +54,67 @@ void systems(int oscA, int oscB, int energy){
 	double rando;
 	int initA = energy;
 	int initB = energy - initA;
-	int states[100-energy];
-	for(int x = 0; x <= 100; x++){
+	for(int x =0; x<100;x++){
 		rando = (double) rand()/(RAND_MAX);
 		double sum = 0;
 		int index = 0;
 		while(sum<rando){
 			sum = sum + system[index];
 			index++;
+		}
 
-		}
-		//printf("%f %f \n",sum,rando);
-		printf("%d %d\n", initA, initB);
-		if (index>initA){
+		//printf("%d %d\n", initA, initB);
+		if (index>initA&&initB!=0){
 			initA = initA + 1;
-		}else if(index < initA){
+		}else if(index < initA && initA != 0){
 			initA = initA -1;
-		}
-		if(x>=energy){
-			states[x-energy] = initA;
 		}
 		initB = energy - initA;
 	}
-	double ave = averageValue(states);
-	double var = variance(states,ave);
-	printf("%d %d %d %f %f\n",oscA,oscB,energy,var,ave);
+	//double ave = averageValue(states);
+	//double var = variance(states,ave);
+	//printf("%d %d %d %f %f\n",oscA,oscB,energy,var,ave);
+	return initA;
 }
 
+//this is for a linear assortment of solids each with 2 oscillators
 int main(int argc, char **argv){
-	systems(5,5,10);
+	//systems(5,5,10);
+	int amount = 10;
+	int solids[10] = {}; //energy in the solids
+
+	solids[0] = 50;
+	solids[9] = 50;
+	FILE * fp;
+	fp = fopen("test.txt","w+");
+
+	int timy = 10;
+	for(int t = 0; t < timy; t++){
+		if(t%2==0){
+			//printf("%d",t);
+			#pragma omp for
+			for(int x=0;x<amount;x=x+2){
+				int total = solids[x]+solids[x+1];
+				solids[x] = systems(20,20,total);
+				solids[x+1] = total - solids[x];
+			}
+		}else{
+			#pragma omp for
+			for(int x=1;x<amount-1;x=x+2){
+				//printf("%d ",x);
+				int total = solids[x]+solids[x+1];
+				solids[x] = systems(20,20,total);
+				solids[x+1] = total - solids[x];
+			}
+		}
+		if(t%1==0){
+			fprintf(fp,"%d ",t);
+			for(int x = 0; x<amount;x++){
+				fprintf(fp,"%d ", solids[x]);
+			}
+			fprintf(fp,"\n");
+		}
+	}
 	//for(int x = 1;x<50;x++){
 	//	systems(x,10,30);
 	//}
