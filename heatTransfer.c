@@ -57,6 +57,9 @@ int main(int argc, char **argv){
 	double states[100];
 	int posStates[100];
 	distrubution(100,states);
-	populate(100,posStates);
+	//populate(100,posStates);
+	printf("\n");
+	double tmp = fF(1);
+	printf("\n %f \n",tmp);
 	return 0;
 }
