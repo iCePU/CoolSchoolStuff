@@ -69,14 +69,23 @@ int systems(int oscA, int oscB, int energy){
 	int initB = energy - initA;
 	double sum;
 	int index;
+	double scale;
 	for(int x =0; x<100;x++){
 
 		//find the state of your system
 		rando = (double) rand()/(RAND_MAX);
 		sum = 0;
 		index = 0;
+		scale = 0;
+		for(int x = 0; x < energy;x++){
+			scale = scale + system[x];
+		}
+
 		while(sum<rando){
-			sum = sum + system[index];
+			if(energy == 0){
+				break;
+			}
+			sum = sum + (system[index]/scale);
 			index++;
 		}
 
@@ -108,7 +117,7 @@ int main(int argc, char **argv){
 	solids[0] = 50;
 	solids[9] = 50;
 
-	long timy = 10000000;
+	long timy = 100;
 	for(long t = 0; t < timy; t++){
 
 		//for every other element
@@ -132,16 +141,16 @@ int main(int argc, char **argv){
 		}
 
 		//outputs to text file
-		/*
+
 		if(t%1==0){
-			fprintf(fp,"%d ",t);
+			fprintf(fp,"%lu ",t);
 			for(int x = 0; x<amount;x++){
 				fprintf(fp,"%d ", solids[x]);
 			}
 
 			fprintf(fp,"\n");
 		}
-		*/
+
 	}
 
 	//end the program
