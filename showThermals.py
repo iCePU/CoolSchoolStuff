@@ -24,6 +24,7 @@ for line in fp:
 		tmp.append(int(x))
 	total.append(list(tmp))
 total = np.array(total)
+
 plt.imshow(total, cmap='inferno', interpolation='nearest')
 plt.ylabel("Time")
 plt.show()

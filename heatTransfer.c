@@ -39,47 +39,7 @@ double variance(int solid[], double aveVal){
 	return rollingSum;
 }
 
-void systems(int oscA, int oscB, int energy){
-	double solidA[energy];
-	double solidB[energy];
-	double system[energy];
-	double state = combinationWithRepition((oscA+oscB),energy);
-	for(int x =0; x<= energy; x++){
-		solidA[x] = combinationWithRepition(oscA,x);
-		solidB[x] = combinationWithRepition(oscB,energy-x);
-		system[x]= (solidA[x]*solidB[x])/state;
-		//printf("%f %f %f %d %d\n",system[x],solidA[x],solidB[x],x,energy-x);
-	}
-
-	double rando;
-	int initA = energy;
-	int initB = energy - initA;
-	int states[100-energy];
-	for(int x = 0; x <= 100; x++){
-		rando = (double) rand()/(RAND_MAX);
-		double sum = 0;
-		int index = 0;
-		while(sum<rando){
-			sum = sum + system[index];
-			index++;
-
-		}
-		//printf("%f %f \n",sum,rando);
-		printf("%d %d\n", initA, initB);
-		if (index>initA){
-			initA = initA + 1;
-		}else if(index < initA){
-			initA = initA -1;
-		}
-		if(x>=energy){
-			states[x-energy] = initA;
-		}
-		initB = energy - initA;
-	}
-	double ave = averageValue(states);
-	double var = variance(states,ave);
-	printf("%d %d %d %f %f\n",oscA,oscB,energy,var,ave);
-}
+ 	
 
 int main(int argc, char **argv){
 	systems(5,5,10);
